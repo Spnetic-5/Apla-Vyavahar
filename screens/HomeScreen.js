@@ -3,10 +3,13 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native'
 import {Text, Avatar, ListItem} from 'react-native-elements'
 import {auth, db} from '../firebase'
 import {StatusBar} from 'expo-status-bar'
-import {AntDesign, Feather, MaterialIcons, FontAwesome5} from '@expo/vector-icons'
+import {AntDesign, Feather, MaterialIcons, FontAwesome5, Ionicons} from '@expo/vector-icons'
 import CustomListItem from '../components/CustomListItem'
 import styled from 'styled-components/native';
+
 import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
+import { NavigationContainer } from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
   const signOutUser = () => {
@@ -30,6 +33,8 @@ const HomeScreen = ({navigation}) => {
       ),
     })
   }, [navigation])
+
+  
 
   // transactions
   const [transactions, setTransactions] = useState([])
@@ -160,8 +165,8 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.cardBottom}>
             <View style={{marginLeft: '5%'}}>
               <View style={styles.cardBottomSame}>
-                <View style={{height: 25, width: 25, backgroundColor: '#FAC7FF', borderRadius: 50, padding: 3}}>
-                  <Feather name='arrow-down' size={18} color='green' />
+                <View style={{height: 25, width: 25, backgroundColor: '#FAC7FF', borderRadius: 50, padding: 3.5}}>
+                  <Feather name='arrow-down' size={18} color='#402243' />
                 </View>
                 <Text
                   style={{
@@ -178,8 +183,8 @@ const HomeScreen = ({navigation}) => {
             </View>
             <View style={{marginLeft: '20%'}}>
               <View style={styles.cardBottomSame}>
-                <View style={{height: 25, width: 25, backgroundColor: '#FAC7FF', borderRadius: 50, padding: 3}}>
-                  <Feather name='arrow-up' size={18} color='red' />
+                <View style={{height: 25, width: 25, backgroundColor: '#FAC7FF', borderRadius: 50, padding: 3.5}}>
+                  <Feather name='arrow-up' size={18} color='#402243' />
                 </View>
                 <Text
                   style={{
@@ -210,7 +215,7 @@ const HomeScreen = ({navigation}) => {
 
         {filter?.length > 0 ? (
           <View style={styles.recentTransactions}>
-            {filter?.slice(0, 5).map((info) => (
+            {filter?.slice(0, 2).map((info) => (
               <View key={info.id} >
                 <CustomListItem
                   info={info.data}
@@ -222,35 +227,38 @@ const HomeScreen = ({navigation}) => {
           </View>
         ) : (
           <View style={styles.containerNull}>
-            <FontAwesome5 name='list-alt' size={24} color='#EF8A76' />
+          <Ionicons name='ios-wallet' size={24} color='#AAAAAA' />
             <Text h4 style={{color: '#4A2D5D'}}>
               No Transactions
             </Text>
           </View>
         )}
-      {/* </View> */}
-      <View style={styles.addButton}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate('Home')}
-        >
-          <AntDesign name='home' size={24} color='#66AFBB' />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.plusButton}s
-          onPress={() => navigation.navigate('Add Lavda')}
-          activeOpacity={0.5}
-        >
-          <AntDesign name='plus' size={24} color='white' />
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate('All')}
-        >
-          <FontAwesome5 name='list-alt' size={24} color='#EF8A76' />
-        </TouchableOpacity>
-      </View>
-     
+      {/* </View> */}     
+        <View style={styles.addButton}>
+          <TouchableOpacity
+            style={{marginLeft: '-10%'}}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('Home')}
+          >
+            <Ionicons name='ios-home' size={30} color='#FAC7FF' />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{marginRight: '-10%'}}
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('All')}
+          >
+            <Ionicons name='ios-wallet' size={30} color='#FAC7FF' />
+          </TouchableOpacity>
+        </View>
+        <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', alignSelf: 'center', top: '15%', elevation: 10}}>
+          <TouchableOpacity
+              style={styles.plusButton}
+              onPress={() => navigation.navigate('Add')}
+              activeOpacity={0.5}
+            >
+            <Feather name='plus' size={35} color='#FFFFFF' />
+          </TouchableOpacity>
+        </View>
       </MainContainer>
     </>
   )
@@ -332,6 +340,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     padding: 10,
+    height: '8%',
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -346,10 +355,16 @@ const styles = StyleSheet.create({
     shadowRadius: 16.0,
 
     elevation: 24,
+    backgroundColor: '#402243'
   },
   plusButton: {
-    backgroundColor: '#535F93',
-    padding: 10,
+    backgroundColor: '#D588D7',
+    padding: 20,
+    height: 75,
+    width: 75,
+    top: '15%',
+    alignSelf: 'center',
+    alignItems: 'center',
     borderRadius: 50,
     shadowColor: '#000',
     shadowOffset: {
@@ -358,7 +373,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.58,
     shadowRadius: 16.0,
-    elevation: 24,
+    elevation: 50,
+    marginBottom: 5
   },
   containerNull: {
     alignItems: 'center',
