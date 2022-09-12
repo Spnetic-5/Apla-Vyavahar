@@ -3,7 +3,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native'
 import {Text, Avatar, ListItem} from 'react-native-elements'
 import {auth, db} from '../firebase'
 import {StatusBar} from 'expo-status-bar'
-import {AntDesign, Feather, MaterialIcons, FontAwesome5, Ionicons} from '@expo/vector-icons'
+import {Feather, MaterialIcons, Entypo, Ionicons} from '@expo/vector-icons'
 import CustomListItem from '../components/CustomListItem'
 import styled from 'styled-components/native';
 
@@ -205,6 +205,9 @@ const HomeScreen = ({navigation}) => {
           <Text h4 style={{color: '#FFFFFF'}}>
             Recent Transactions
           </Text>
+          <View style={{marginLeft: '-35%'}}>
+            <Entypo name='colours' size={25} color='#FFFFFF' />
+          </View>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => navigation.navigate('All')}
@@ -250,7 +253,7 @@ const HomeScreen = ({navigation}) => {
             <Ionicons name='ios-wallet' size={30} color='#FAC7FF' />
           </TouchableOpacity>
         </View>
-        <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', alignSelf: 'center', top: '15%', elevation: 10}}>
+        <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', alignSelf: 'center', top: '15%', elevation: 25}}>
           <TouchableOpacity
               style={styles.plusButton}
               onPress={() => navigation.navigate('Add')}
@@ -286,8 +289,6 @@ const styles = StyleSheet.create({
     marginTop: '-5%', 
     margin: 'auto',
     borderRadius: 100,
-  //   borderBottomLeftRadius: 2,
-  //   borderBottonRightRadius: 2,
   },
   card: {
     backgroundColor: '#402243',
@@ -299,7 +300,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 5,
     elevation: 10,
-    // marginVertical: 20,2
     marginLeft: '7.5%',
     marginTop: '-20%'
   },

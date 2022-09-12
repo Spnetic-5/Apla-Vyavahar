@@ -12,8 +12,6 @@ import AddScreen from './screens/AddScreen'
 import UpdateScreen from './screens/UpdateScreen'
 import AllTransactions from './screens/AllTransactions'
 
-import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Stack = createStackNavigator()
 
