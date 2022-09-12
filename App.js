@@ -21,39 +21,6 @@ export default function App() {
   const globalScreenOptions = {
     headerShown: false
   }
-  const _renderIcon = (routeName: string, selectedTab: string) => {
-    let icon = '';
-
-    switch (routeName) {
-      case 'title1':
-        icon = 'ios-home-outline';
-        break;
-      case 'title2':
-        icon = 'settings-outline';
-        break;
-    }
-
-    return (
-      <Ionicons
-        name={icon}
-        size={25}
-        color={routeName === selectedTab ? 'black' : 'gray'}
-      />
-    );
-  };
-  const renderTabBar = ({ routeName, selectedTab, navigate }: any) => {
-    return (
-      <TouchableOpacity
-        onPress={() => navigate(routeName)}
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        {_renderIcon(routeName, selectedTab)}
-      </TouchableOpacity>
-    );
-  };
   return (
     <NavigationContainer>
       <StatusBar style='light' />
