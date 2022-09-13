@@ -8,7 +8,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
-import {FontAwesome, EvilIcons, FontAwesome5} from '@expo/vector-icons'
+import {FontAwesome, EvilIcons, Entypo} from '@expo/vector-icons'
 import {db} from '../firebase'
 
 const ModalActions = ({modalVisible, setModalVisible, navigation, id}) => {
@@ -37,29 +37,51 @@ const ModalActions = ({modalVisible, setModalVisible, navigation, id}) => {
                 style={[styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}
               >
-                <FontAwesome5 name='times-circle' size={24} color='black' />
+                <View style={{height: 40, width: 40, backgroundColor: '#000000', borderRadius: 20, padding: 5}}>
+                  <Entypo name='cross' size={30} color='#FFFFFF' />
+                </View>
               </Pressable>
             </View>
             <View style={styles.handleIcons}>
               <TouchableOpacity activeOpacity={0.5} style={styles.pencil}>
-                <EvilIcons
-                  name='pencil'
-                  size={40}
-                  color='#61ACB8'
-                  onPress={() =>
+                <View style={{flexDirection: 'row'}}>
+                  <Entypo
+                    name='pencil'
+                    size={40}
+                    color='#61ACB8'
+                    onPress={() =>
+                      navigation.navigate('Update', {
+                        itemId: id,
+                      }) & setModalVisible(!modalVisible)
+                    }
+                  />
+                  <Text 
+                    onPress={() =>
                     navigation.navigate('Update', {
                       itemId: id,
                     }) & setModalVisible(!modalVisible)
-                  }
-                />
+                    } 
+                    style={{color: '#61ACB8', fontSize: 20, fontWeight: '500', padding: 7}}
+                  > Edit </Text>
+              </View>
               </TouchableOpacity>
               <TouchableOpacity activeOpacity={0.5} style={styles.trash}>
-                <FontAwesome
-                  name='trash-o'
-                  onPress={() => deleteExpense()}
-                  size={32}
-                  color='red'
-                />
+                <View style={{flexDirection: 'row'}}>
+                  <Entypo
+                    name='trash'
+                    onPress={() => deleteExpense()}
+                    size={40}
+                    color='red'
+                  />
+                  <Text 
+                    onPress={() =>
+                    navigation.navigate('Update', {
+                      itemId: id,
+                    }) & setModalVisible(!modalVisible)
+                    } 
+                    style={{color: 'red', fontSize: 20, fontWeight: '500', padding: 7}}
+                  > Delete </Text>
+                </View>
               </TouchableOpacity>
             </View>
           </View>
@@ -73,14 +95,14 @@ export default ModalActions
 
 const styles = StyleSheet.create({
   pencil: {
-    backgroundColor: 'aliceblue',
+    // backgroundColor: '#FAC7FF',
     borderRadius: 10,
     padding: 8,
   },
   trash: {
-    backgroundColor: 'aliceblue',
+    // backgroundColor: '#FAC7FF',
     borderRadius: 10,
-    // padding: 8,
+    marginTop: '5%',
     paddingVertical: 8,
     paddingHorizontal: 15
   },
@@ -88,12 +110,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
+    marginRight: 5
   },
   handleIcons: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
     width: '100%',
+    marginTop: '5%'
   },
   centeredView: {
     flex: 1,

@@ -1,6 +1,6 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react'
-import {StyleSheet, View, KeyboardAvoidingView} from 'react-native'
-import {Input, Button, Image, Text} from 'react-native-elements'
+import {StyleSheet, View, KeyboardAvoidingView, TouchableOpacity, Image, TextInput} from 'react-native'
+import {Text} from 'react-native-elements'
 import {StatusBar} from 'expo-status-bar'
 import {auth} from '../firebase'
 
@@ -56,54 +56,64 @@ const LoginScreen = ({navigation}) => {
     <>
       {!loading ? (
         <KeyboardAvoidingView behavior='padding' style={styles.container}>
-          <StatusBar style='light' />
+          <StatusBar style='dark' />
           <Image
-            source={{
-              uri:
-                'https://static-s.aa-cdn.net/img/gp/20600011886807/to-aGJ31KLwqc9AWaBUyL6NLbpFwN9VEliX7nQ_AU48aO4jH6M1MltWKmThWJPndJg=s300?v=1',
+            style={{
+              height: 500,
+              top: '-7%',
+              resizeMode: 'contain'
             }}
-            style={{width: 100, height: 100, marginBottom: 50}}
+            source={require('../assets/logo.png')}
           />
-          <View style={styles.inputContainer}>
-            <Input
-              type='email'
-              placeholder='Email'
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-            />
-            <Input
-              type='password'
-              secureTextEntry
-              placeholder='Password'
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              onSubmitEditing={signIn}
-            />
+          <View style={{alignItems: 'center', top: '-5%'}}>
+            <Text style={{fontSize: 24, fontWeight: '700', color: '#FAC7FF',}}> आपला व्यवहार 📑️ </Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={{color: '#FFFFFF', fontSize: 18, marginTop: 10, borderWidth: 1, borderRadius: 10, height: 40, padding: 10, borderColor: '#FAC7FF'}}
+                type='email'
+                placeholder='Email ID'
+                placeholderTextColor={'#FAC7FF'}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+              />
+              <TextInput
+                type='password'
+                style={{color: '#FFFFFF', fontSize: 18, marginTop: 15, marginBottom: 10, borderWidth: 1, borderRadius: 10, height: 40, padding: 10, borderColor: '#FAC7FF'}}
+                secureTextEntry
+                placeholder='Password'
+                placeholderTextColor={'#FAC7FF'}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                onSubmitEditing={signIn}
+              />
+            </View>
+            <View style={{flexDirection: 'row', marginTop: '4%'}}>
+              <TouchableOpacity
+                style={styles.add}
+                loading={submitLoading}
+                onPress={signIn}
+              > 
+              <Text style={{color: '#FAC7FF', padding: 15, marginLeft: 15}}> Login </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.cancel}
+                onPress={() => navigation.navigate('Register')}
+              >
+              <Text style={{color: '#000000', padding: 15, marginLeft: 5}}> Register </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <Button
-            loading={submitLoading}
-            containerStyle={styles.button}
-            title='Login'
-            onPress={signIn}
-          />
-          <Button
-            onPress={() => navigation.navigate('Register')}
-            containerStyle={styles.button}
-            title='Register'
-            type='outline'
-          />
-          <View style={{height: 50}}></View>
         </KeyboardAvoidingView>
       ) : (
         <View style={styles.container}>
           <StatusBar style='light' />
-          <Image
+          {/* <Image
             source={{
               uri:
                 'https://static-s.aa-cdn.net/img/gp/20600011886807/to-aGJ31KLwqc9AWaBUyL6NLbpFwN9VEliX7nQ_AU48aO4jH6M1MltWKmThWJPndJg=s300?v=1',
             }}
             style={{width: 100, height: 100, marginBottom: 50}}
-          />
+          /> */}
           <Text h4>Loading...</Text>
         </View>
       )}
@@ -118,13 +128,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
   inputContainer: {
     width: 300,
+    backgroundColor: '#000000',
+    padding: 15,
+    borderRadius: 20,
   },
-  button: {
-    width: 300,
-    marginTop: 10,
+  add: {
+    width: 100,
+    backgroundColor: '#402243',
+    height: 50,
+    borderRadius: 20
+  },
+  cancel: {
+    width: 100,
+    backgroundColor: '#FFFFFF',
+    height: 50,
+    borderRadius: 20,
+    borderColor: '#402243',
+    borderWidth: 1,
+    color: '#402243',
+    marginLeft: 50
   },
 })

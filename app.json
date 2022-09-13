@@ -4,11 +4,11 @@
     "slug": "Expense_Tracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/and.png",
+    "icon": "./assets/apla  .png",
     "splash": {
-      "image": "./assets/and.png",
+      "image": "./assets/apla.png",
       "resizeMode": "contain",
-      "backgroundColor": "#61ACB8"
+      "backgroundColor": "#402243"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,12 +19,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/and.png",
+        "foregroundImage": "./assets/apla.png",
         "backgroundColor": "#000000"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.ico"
     }
   }
 }

@@ -3,7 +3,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native'
 import {Text, Avatar, ListItem} from 'react-native-elements'
 import {auth, db} from '../firebase'
 import {StatusBar} from 'expo-status-bar'
-import {Feather, MaterialIcons, Entypo, Ionicons} from '@expo/vector-icons'
+import {Feather, FontAwesome5, Entypo, Ionicons} from '@expo/vector-icons'
 import CustomListItem from '../components/CustomListItem'
 import styled from 'styled-components/native';
 
@@ -133,17 +133,23 @@ const HomeScreen = ({navigation}) => {
         <MainContainer>
           <UpperContainer style={styles.upper}>
             <View style={styles.fullName}>
-                <View style={{marginLeft: 10, top: '15%', flexDirection: 'column'}}>
-                  <Text style={{fontSize: 18, fontWeight: 'bold', marginTop: '10%'}}>Welcome 🤟️</Text>
+                <View style={{flexDirection: 'column'}}>
+                  <Text style={{fontSize: 18, fontWeight: 'bold'}}>Welcome 🤟️</Text>
                     <Text style={{fontSize: 24, fontWeight: 'bold', marginTop: '2%', color: '#4A2D5D'}}>
                       {auth.currentUser.displayName}
                     </Text>
                 </View>
-                <View style={{top:'25%'}}>
-                  <View View style={{height: 40, width: 40, backgroundColor: '#000000', borderRadius: 10, padding: 9, marginLeft: 25}}>
-                    <MaterialIcons name="notifications-on" size={22} color="#FAC7FF" />
-                    {/* <Feather name='bell' size={18} color='#FAC7FF' /> */}
-                  </View>
+                <View style={{flex: 1, alignSelf: 'flex-start'}}>
+                <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
+                    {/* <Text style={{fontWeight: 'bold', color: 'red'}}>Logout</Text> */}
+                    <View View style={{height: 40, width: 40, backgroundColor: '#000000', borderRadius: 10, padding: 9, marginLeft: 25}}>
+                      <Feather name='log-out' size={22} color='#FAC7FF' />
+                    </View>
+                    {/* <View style={{height: 40, width: 40, backgroundColor: '#000000', borderRadius: 10, padding: 9, marginLeft: 25}}>
+                      <MaterialIcons name="notifications-on" size={22} color="#FAC7FF" />
+                    </View> */}
+                  </TouchableOpacity>
+                  
                 </View>
               </View>
 
@@ -250,10 +256,10 @@ const HomeScreen = ({navigation}) => {
             activeOpacity={0.5}
             onPress={() => navigation.navigate('All')}
           >
-            <Ionicons name='ios-wallet' size={30} color='#FAC7FF' />
+            <FontAwesome5 name='clipboard-list' size={30} color='#FAC7FF' />
           </TouchableOpacity>
         </View>
-        <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', alignSelf: 'center', top: '5%', elevation: 25}}>
+        <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', alignSelf: 'center', top: '85%', position:'absolute', elevation: 25}}>
           <TouchableOpacity
               style={styles.plusButton}
               onPress={() => navigation.navigate('Add')}
@@ -279,7 +285,9 @@ const styles = StyleSheet.create({
   },
   fullName: {
     flexDirection: 'row',
-    marginTop: '4%'
+    flex: 1,
+    marginTop: '20%',
+    left: '20%'
   },
   upper: {
     flexDirection: 'row',

@@ -35,19 +35,30 @@ const AddScreen = ({navigation}) => {
     }
   }
 
-  const clearInputFields = () => {
-    alert('Created Successfully')
-    setInput('')
-    setAmount('')
-    setSelDate(new Date())
-    setSelectType('expense')
-    navigation.navigate('Home')
-    setSubmitLoading(false)
-  }
   // Date Picker
   const [selDate, setSelDate] = useState(new Date())
   const [show, setShow] = useState(false)
   const [mode, setMode] = useState('date')
+  const [showModal, setShowModal] = useState(false);
+
+  const success = () => {
+    navigation.navigate('Home');
+  }
+
+  const clearInputFields = () => {
+    // alert('Created Successfully')
+    setInput('')
+    setAmount('')
+    setSelDate(new Date())
+    setSelectType('expense')
+    Keyboard.dismiss()
+    setTimeout(() => {
+      success()
+      }, 4000);
+    setSubmitLoading(false);
+    setShowModal(true);
+  }
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date
     setShow(Platform.OS === 'ios')
@@ -111,7 +122,7 @@ const AddScreen = ({navigation}) => {
       </UpperContainer>
       <MainContainer></MainContainer>
       <View 
-      style={isKeyboardVisible ? {flexDirection: 'row', zIndex: 5, marginLeft: '10%', marginTop: '-180%'} : {flexDirection: 'row', zIndex: 5, marginLeft: '10%', marginTop: '-255%'}}>
+        style={isKeyboardVisible ? {flexDirection: 'row', zIndex: 5, marginLeft: '10%', marginTop: '-180%'} : {flexDirection: 'row', zIndex: 5, marginLeft: '10%', marginTop: '-255%'}}>
       <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => navigation.navigate('Home')}
@@ -119,7 +130,7 @@ const AddScreen = ({navigation}) => {
           <Ionicons name="chevron-back" size={25} color="black" />
         </TouchableOpacity>
         
-        <Text style={{color: '#000000', fontWeight: 'bold', fontSize: 18, marginLeft: '50%', marginTop: '1%' }}>
+        <Text style={{color: '#000000', fontWeight: 'bold', fontSize: 18, marginLeft: '22.5%', marginTop: '1%' }}>
           Add Expense
         </Text>
       </View>
@@ -140,7 +151,7 @@ const AddScreen = ({navigation}) => {
             style={styles.inputBox}
             onChangeText={(text) => setInput(text)}
             value={input}
-            placeholder="Kaha Udayaa? 😒️"
+            placeholder={selectedType === 'expense' ? "Kaha Udayaa? 😒️" : "Kahase Kamaya? 😉️"}
             placeholderTextColor="#AAAAAA"
           />
           {show && (
@@ -166,7 +177,7 @@ const AddScreen = ({navigation}) => {
           <TextInput
             style={styles.inputBox}
             keyboardType='numeric'
-            placeholder='Kitna Udaya? 🤨️'
+            placeholder={selectedType === 'expense' ? 'Kitna Udaya? 🤨️' : "Kitna Kamaya? 🧐️"}
             placeholderTextColor="#AAAAAA"
             value={amount}
             onChangeText={(text) => setAmount(text)}
@@ -206,17 +217,20 @@ const AddScreen = ({navigation}) => {
           >
             TYPE
           </Text>
+          <View style={selectedType=='expense' ? styles.inputBoxTe : styles.inputBoxTi}>
           <Picker
-            style={selectedType=='expense' ? styles.inputBoxTe : styles.inputBoxTi}
+            mode={'dropdown'}
+            style={{marginLeft: '5%'}}
             dropdownIconColor={'#000000'}
             selectedValue={selectedType}
             onValueChange={(itemValue, itemIndex) =>
               setSelectType(itemValue)
             }
           >
-            <Picker.Item label='Expense' value='expense' />
-            <Picker.Item label='Income' value='income' />
+            <Picker.Item style={{backgroundColor: '#FAC7FF', color:'red'}} label='Expense' value='expense' />
+            <Picker.Item style={{backgroundColor: '#FAC7FF', color:'green'}} label='Income' value='income' />
           </Picker>
+          </View>
         </View>
       </KeyboardAvoidingView>
       <View style={{flexDirection: 'row', marginLeft: '10%', marginTop: '-2%' ,marginBottom: '2%'}}>
@@ -234,7 +248,7 @@ const AddScreen = ({navigation}) => {
         />
       </View>
       {
-        uday && (
+        selectedType === 'expense' ? (
           <Image
           style={{
             flex: 1,
@@ -244,6 +258,58 @@ const AddScreen = ({navigation}) => {
           }}
           source={require('../assets/uday.png')}
         />
+        ) : (
+          <Image
+          style={{
+            flex: 1,
+            width: 275,
+            borderRadius: 20,
+            height: 175,
+            alignSelf: 'center'
+            // resizeMode: 'contain'
+          }}
+          source={require('../assets/phir.jpg')}
+        />
+        )
+      }
+      {
+        showModal && (
+          <View style={{ top: '-50%', left: '10%', zIndex: 5, width: '80%', height: '60%', backgroundColor: 'white', borderRadius: 25}}>
+          <Image
+              style={{
+                // flex: 1,
+                borderRadius: 20,
+                width: '100%',
+                resizeMode: 'contain'
+              }}
+              source={require('../assets/greenbg.png')}
+            />
+            <Image
+              style={{
+                // flex: 1,
+                borderRadius: 20,
+                width: '50%',
+                height: '25%',
+                alignSelf: 'center',
+                resizeMode: 'contain',
+                marginTop: '-125%',
+                zIndex: 5
+              }}
+              source={require('../assets/check.png')}
+            />
+            <Text style={{fontSize: 20, fontWeight: 'bold', alignSelf: 'center', top: '25%', color: '#402243'}}>
+              Woo Hoo! 🥳️
+            </Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold', alignSelf: 'center', top: '25%', color: '#646279'}}>
+              Transaction added successfully!
+            </Text>
+            <Button
+              buttonStyle={styles.thank}
+              title='Thanks'
+              onPress={() => setShowModal(false)}
+              loading={submitLoading}
+            />
+          </View>
         )
       }
     </>
@@ -326,23 +392,46 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   inputBoxTe: {
+    borderRadius: 10, 
+    borderWidth: 1,  
+    overflow: 'hidden',
     height: 50,
     margin: 12,
+    fontWeight: 'bold',
     borderRadius: 8,
-    borderColor: 'white',
+    borderColor: '#402243',
     color: 'red',
     borderWidth: 1,
-    padding: 10,
     backgroundColor: '#FAC7FF',
   },
   inputBoxTi: {
+    borderRadius: 10, 
+    borderWidth: 1,  
+    overflow: 'hidden',
     height: 50,
     margin: 12,
+    fontWeight: 'bold',
     borderRadius: 8,
-    borderColor: 'white',
+    borderColor: '#402243',
     color: 'green',
     borderWidth: 1,
-    padding: 10,
     backgroundColor: '#FAC7FF'
   },
+  thank: {
+    width: '40%',
+    backgroundColor: '#402243',
+    height: 50,
+    borderRadius: 20,
+    zIndex: 10,
+    marginTop: '45%',
+    alignSelf: 'center'
+  },
 })
+
+
+
+
+
+
+
+

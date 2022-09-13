@@ -1,10 +1,11 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react'
-import {ScrollView, StyleSheet, View} from 'react-native'
+import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import CustomListItem from '../components/CustomListItem'
 import {db, auth} from '../firebase'
 import {Text} from 'react-native-elements'
-import {FontAwesome5} from '@expo/vector-icons'
+import {FontAwesome5, Ionicons} from '@expo/vector-icons'
+import styled from 'styled-components/native';
 
 const AllTransactions = ({navigation}) => {
   useLayoutEffect(() => {
@@ -38,8 +39,39 @@ const AllTransactions = ({navigation}) => {
       )
     }
   }, [transactions])
+
+  const MainContainer = styled.View`
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    top: -14%;
+    zIndex: -5;
+  `;
+
+  const UpperContainer = styled.View`
+    background-color: #F9D7FF;
+    height: 30%;
+    width: 100%;
+    border-radius: 20;
+  `;
+
   return (
-    <>
+    <MainContainer>
+       <UpperContainer>
+      </UpperContainer>
+      <View 
+      style={{flexDirection: 'row', marginLeft: '10%', marginTop: '-15%', zIndex: 5}}>
+      <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('Home')}
+        >
+          <Ionicons name="chevron-back" size={25} color="black" />
+        </TouchableOpacity>
+
+        <Text style={{color: '#000000', fontWeight: 'bold', fontSize: 18, marginLeft: '22.5%', marginTop: '1%' }}>
+          All Transactions
+        </Text>
+      </View>
       {filter?.length > 0 ? (
         <SafeAreaView style={styles.container}>
           <ScrollView>
@@ -62,7 +94,7 @@ const AllTransactions = ({navigation}) => {
           </Text>
         </View>
       )}
-    </>
+    </MainContainer>
   )
 }
 
@@ -70,13 +102,14 @@ export default AllTransactions
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     padding: 0,
-    marginTop: -23,
+    marginTop: '10%',
+    height: '100%'
   },
   containerNull: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
   },
