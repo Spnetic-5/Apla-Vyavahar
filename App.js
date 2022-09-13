@@ -17,7 +17,7 @@ const Stack = createStackNavigator()
 
 export default function App() {
   const globalScreenOptions = {
-    headerShown: false
+    headerShown: false,
   }
   return (
     <NavigationContainer>

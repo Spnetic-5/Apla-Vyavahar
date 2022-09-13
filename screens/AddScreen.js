@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar'
-import React, {useLayoutEffect, useState} from 'react'
-import {StyleSheet, View, KeyboardAvoidingView, TouchableOpacity, TextInput, Image} from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {StyleSheet, View, KeyboardAvoidingView, TouchableOpacity, TextInput, Image, Keyboard} from 'react-native'
 import {Text, Button} from 'react-native-elements'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import format from 'date-fns/format'
@@ -15,7 +15,7 @@ const AddScreen = ({navigation}) => {
   const [input, setInput] = useState('')
   const [amount, setAmount] = useState('')
   const createExpense = () => {
-    if (input && amount && selDate && selectedLanguage && auth) {
+    if (input && amount && selDate && selectedType && auth) {
       setSubmitLoading(true)
       db.collection('expense')
         .add({
@@ -23,7 +23,7 @@ const AddScreen = ({navigation}) => {
           text: input,
           price: amount,
           date: selDate,
-          type: selectedLanguage,
+          type: selectedType,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           userDate: result,
         })
@@ -40,7 +40,7 @@ const AddScreen = ({navigation}) => {
     setInput('')
     setAmount('')
     setSelDate(new Date())
-    setSelectedLanguage('expense')
+    setSelectType('expense')
     navigation.navigate('Home')
     setSubmitLoading(false)
   }
@@ -69,6 +69,8 @@ const AddScreen = ({navigation}) => {
     background-color: black;
     height: 100%;
     width: 100%;
+    top: -5%;
+    zIndex: -5;
   `;
 
   const UpperContainer = styled.View`
@@ -78,11 +80,38 @@ const AddScreen = ({navigation}) => {
     border-radius: 10;
   `;
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [uday, setUday] = useState(!isKeyboardVisible);
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+        setUday(false);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+        setUday(true);
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+
   return (
-    <MainContainer>
+    <>
       <UpperContainer style={styles.upper}>
       </UpperContainer>
-      <View style={{flexDirection: 'row', zIndex: 5, marginLeft: '10%', marginTop: '-40%'}}>
+      <MainContainer></MainContainer>
+      <View 
+      style={isKeyboardVisible ? {flexDirection: 'row', zIndex: 5, marginLeft: '10%', marginTop: '-180%'} : {flexDirection: 'row', zIndex: 5, marginLeft: '10%', marginTop: '-255%'}}>
       <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => navigation.navigate('Home')}
@@ -94,7 +123,7 @@ const AddScreen = ({navigation}) => {
           Add Expense
         </Text>
       </View>
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <StatusBar style='dark' />
         <View style={styles.inputContainer}>
         <Text
@@ -189,7 +218,7 @@ const AddScreen = ({navigation}) => {
             <Picker.Item label='Income' value='income' />
           </Picker>
         </View>
-      </View>
+      </KeyboardAvoidingView>
       <View style={{flexDirection: 'row', marginLeft: '10%', marginTop: '-2%' ,marginBottom: '2%'}}>
         <Button
           buttonStyle={styles.add}
@@ -204,16 +233,20 @@ const AddScreen = ({navigation}) => {
           onPress={() => navigation.navigate('Home')}
         />
       </View>
-      <Image
-        style={{
-          flex: 1,
-          width: null,
-          height: null,
-          resizeMode: 'contain'
-        }}
-        source={require('../assets/uday.png')}
-      />
-    </MainContainer>
+      {
+        uday && (
+          <Image
+          style={{
+            flex: 1,
+            width: null,
+            height: null,
+            resizeMode: 'contain'
+          }}
+          source={require('../assets/uday.png')}
+        />
+        )
+      }
+    </>
   )
 }
 
@@ -221,7 +254,6 @@ export default AddScreen
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'red',
     backgroundColor: '#402243',
     width: '85%',
     padding: 10,
@@ -246,6 +278,7 @@ const styles = StyleSheet.create({
     marginTop: '-5%', 
     margin: 'auto',
     borderRadius: 100,
+    zIndex: -1
   },
   inputContainer: {
     width: '92%',

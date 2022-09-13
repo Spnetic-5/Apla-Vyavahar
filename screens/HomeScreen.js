@@ -218,7 +218,7 @@ const HomeScreen = ({navigation}) => {
 
         {filter?.length > 0 ? (
           <View style={styles.recentTransactions}>
-            {filter?.slice(0, 2).map((info) => (
+            {filter?.slice(0, 3).map((info) => (
               <View key={info.id} >
                 <CustomListItem
                   info={info.data}
@@ -253,7 +253,7 @@ const HomeScreen = ({navigation}) => {
             <Ionicons name='ios-wallet' size={30} color='#FAC7FF' />
           </TouchableOpacity>
         </View>
-        <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', alignSelf: 'center', top: '15%', elevation: 25}}>
+        <View style={{ width: 100, height: 100, borderRadius: 50, backgroundColor: 'black', alignSelf: 'center', top: '5%', elevation: 25}}>
           <TouchableOpacity
               style={styles.plusButton}
               onPress={() => navigation.navigate('Add')}
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     padding: 20,
     height: 75,
     width: 75,
-    top: '15%',
+    top: '12%',
     alignSelf: 'center',
     alignItems: 'center',
     borderRadius: 50,
