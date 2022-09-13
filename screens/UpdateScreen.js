@@ -60,15 +60,35 @@ const UpdateScreen = ({route, navigation}) => {
     }
   }
 
+  const [showModal, setShowModal] = useState(false);
+
+  const success = () => {
+    navigation.goBack()
+  }
+
   const clearInputFields = () => {
-    alert('Updated Successfully')
+    // alert('Created Successfully')
     setInput('')
     setAmount('')
     setSelDate(new Date())
     setSelectType('expense')
-    navigation.goBack()
-    setSubmitLoading(false)
+    Keyboard.dismiss()
+    setTimeout(() => {
+      success()
+      }, 4000);
+    setSubmitLoading(false);
+    setShowModal(true);
   }
+
+  // const clearInputFields = () => {
+  //   alert('Updated Successfully')
+  //   setInput('')
+  //   setAmount('')
+  //   setSelDate(new Date())
+  //   setSelectType('expense')
+  //   navigation.goBack()
+  //   setSubmitLoading(false)
+  // }
 
   // Date Picker
   const [selDate, setSelDate] = useState(new Date())
@@ -276,65 +296,47 @@ const UpdateScreen = ({route, navigation}) => {
         />
         )
       }
+      {
+        showModal && (
+          <View style={{ top: '-50%', left: '10%', zIndex: 5, width: '80%', height: '60%', backgroundColor: 'white', borderRadius: 25}}>
+          <Image
+              style={{
+                // flex: 1,
+                borderRadius: 20,
+                width: '100%',
+                resizeMode: 'contain'
+              }}
+              source={require('../assets/greenbg.png')}
+            />
+            <Image
+              style={{
+                // flex: 1,
+                borderRadius: 20,
+                width: '50%',
+                height: '25%',
+                alignSelf: 'center',
+                resizeMode: 'contain',
+                marginTop: '-125%',
+                zIndex: 5
+              }}
+              source={require('../assets/check.png')}
+            />
+            <Text style={{fontSize: 20, fontWeight: 'bold', alignSelf: 'center', top: '25%', color: '#402243'}}>
+              Woo Hoo! 🥳️
+            </Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold', alignSelf: 'center', top: '25%', color: '#646279'}}>
+              Transaction updated successfully!
+            </Text>
+            <Button
+              buttonStyle={styles.thank}
+              title='Thanks'
+              onPress={() => setShowModal(false)}
+              loading={submitLoading}
+            />
+          </View>
+        )
+      }
     </>
-    // <KeyboardAvoidingView behavior='padding' style={styles.container}>
-    //   <StatusBar style='dark' />
-    //   <View style={styles.inputContainer}>
-    //     <TextInput
-    //       style={styles.input}
-    //       placeholder='Add Text'
-    //       value={input}
-    //       // defaultValue={transactions.text}
-    //       onChangeText={(text) => setInput(text)}
-    //     />
-
-    //     {show && (
-    //       <DateTimePicker
-    //         testID='dateTimePicker'
-    //         value={selDate}
-    //         mode={mode}
-    //         defaultValue={transactions?.date}
-    //         is24Hour={true}
-    //         display='default'
-    //         onChange={onChange}
-    //       />
-    //     )}
-
-    //     <TextInput
-    //       style={styles.input}
-    //       keyboardType='numeric'
-    //       placeholder='Add Amount'
-    //       value={amount}
-    //       onChangeText={(text) => setAmount(text)}
-    //       defaultValue={transactions.price}
-    //     />
-
-    //     <Text
-    //       style={styles.input}
-    //       placeholder='Select Date'
-    //       onPress={showDatepicker}
-    //     >
-    //       {result ? result : new Date()}
-    //     </Text>
-
-    //     <Picker
-    //       selectedValue={selectedLanguage}
-    //       onValueChange={(itemValue, itemIndex) =>
-    //         setSelectedLanguage(itemValue)
-    //       }
-    //     >
-    //       <Picker.Item label='Expense' value='expense' />
-    //       <Picker.Item label='Income' value='income' />
-    //     </Picker>
-
-    //     <Button
-    //       containerStyle={styles.button}
-    //       title='Update'
-    //       onPress={updateExpense}
-    //       loading={submitLoading}
-    //     />
-    //   </View>
-    // </KeyboardAvoidingView>
   )
 }
 
@@ -438,5 +440,14 @@ const styles = StyleSheet.create({
     color: 'green',
     borderWidth: 1,
     backgroundColor: '#FAC7FF'
+  },
+  thank: {
+    width: '40%',
+    backgroundColor: '#402243',
+    height: 50,
+    borderRadius: 20,
+    zIndex: 10,
+    marginTop: '45%',
+    alignSelf: 'center'
   },
 })
