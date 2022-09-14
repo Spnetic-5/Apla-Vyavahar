@@ -181,13 +181,50 @@ const UpdateScreen = ({route, navigation}) => {
         >
           NAME
         </Text>
-        <TextInput
+        <View style={styles.inputBoxTe}>
+        {
+            selectedType === 'expense' ? (
+              <Picker
+              mode={'dropdown'}
+              style={{marginLeft: '5%'}}
+              dropdownIconColor={'#000000'}
+              selectedValue={input}
+              onValueChange={(itemValue) =>
+                setInput(itemValue)
+              }
+            >
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🧆️ Food' value='🧆️ Food' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🚂️ Travel' value='🚂️ Travel' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🗒️ Kirana' value='🗒️ Kirana' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🛍️ Shopping' value='🛍️ Shopping' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🎬️ Movie' value='🎬️ Movie' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='📚️ Other' value='📚️ Other' />
+            </Picker>
+            ) : 
+            (
+              <Picker
+              mode={'dropdown'}
+              style={{marginLeft: '5%'}}
+              dropdownIconColor={'#000000'}
+              selectedValue={input}
+              onValueChange={(itemValue) =>
+                setInput(itemValue)
+              }
+            >
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='💵️ Salary' value='💵️ Salary' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='💰️ Pocket Money' value='💰️ Pocket Money' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🔁️ Returns' value='🔁️ Returns' />
+            </Picker>
+            )
+          }
+        </View>
+        {/* <TextInput
             style={styles.inputBox}
             onChangeText={(text) => setInput(text)}
             value={input}
             placeholder="Kaha Udayaa? 😒️"
             placeholderTextColor="#AAAAAA"
-          />
+          /> */}
           {show && (
             <DateTimePicker
               testID='dateTimePicker'
@@ -417,7 +454,6 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     borderWidth: 1,  
     overflow: 'hidden',
-    height: 50,
     margin: 12,
     fontWeight: 'bold',
     borderRadius: 8,
@@ -430,7 +466,6 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     borderWidth: 1,  
     overflow: 'hidden',
-    height: 50,
     margin: 12,
     fontWeight: 'bold',
     borderRadius: 8,

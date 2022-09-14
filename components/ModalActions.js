@@ -64,7 +64,7 @@ const ModalActions = ({modalVisible, setModalVisible, navigation, id}) => {
               source={require('../assets/check.png')}
             />
             <Text style={{fontSize: 20, fontWeight: 'bold', alignSelf: 'center', top: '40%', color: '#8B0000'}}>
-              Oops...!!! 😏️
+              Yeahh...!!! 😉️
             </Text>
             <Text style={{fontSize: 16, fontWeight: 'bold', alignSelf: 'center', top: '40%', color: '#646279'}}>
               Transaction deleted successfully! 

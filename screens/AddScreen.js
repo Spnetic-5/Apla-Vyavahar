@@ -8,7 +8,7 @@ import {Picker} from '@react-native-picker/picker'
 import {db, auth} from '../firebase'
 import firebase from 'firebase'
 import styled from 'styled-components/native';
-import {Feather, MaterialIcons, Entypo, Ionicons} from '@expo/vector-icons'
+import {Feather, Ionicons} from '@expo/vector-icons'
 
 const AddScreen = ({navigation}) => {
   const [submitLoading, setSubmitLoading] = useState(false)
@@ -145,13 +145,50 @@ const AddScreen = ({navigation}) => {
         >
           NAME
         </Text>
-        <TextInput
+        <View style={styles.inputBoxTe}>
+        {
+            selectedType === 'expense' ? (
+              <Picker
+              mode={'dropdown'}
+              style={{marginLeft: '5%'}}
+              dropdownIconColor={'#000000'}
+              selectedValue={input}
+              onValueChange={(itemValue) =>
+                setInput(itemValue)
+              }
+            >
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🧆️ Food' value='🧆️ Food' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🚂️ Travel' value='🚂️ Travel' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🗒️ Kirana' value='🗒️ Kirana' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🛍️ Shopping' value='🛍️ Shopping' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🎬️ Movie' value='🎬️ Movie' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='📚️ Other' value='📚️ Other' />
+            </Picker>
+            ) : 
+            (
+              <Picker
+              mode={'dropdown'}
+              style={{marginLeft: '5%'}}
+              dropdownIconColor={'#000000'}
+              selectedValue={input}
+              onValueChange={(itemValue) =>
+                setInput(itemValue)
+              }
+            >
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='💵️ Salary' value='💵️ Salary' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='💰️ Pocket Money' value='💰️ Pocket Money' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'#402243', fontSize: 18}} label='🔁️ Returns' value='🔁️ Returns' />
+            </Picker>
+            )
+          }
+        </View>
+        {/* <TextInput
             style={styles.inputBox}
             onChangeText={(text) => setInput(text)}
             value={input}
             placeholder={selectedType === 'expense' ? "Kaha Udayaa? 😒️" : "Kahase Kamaya? 😉️"}
             placeholderTextColor="#AAAAAA"
-          />
+          /> */}
           {show && (
             <DateTimePicker
               testID='dateTimePicker'
@@ -216,18 +253,18 @@ const AddScreen = ({navigation}) => {
             TYPE
           </Text>
           <View style={selectedType=='expense' ? styles.inputBoxTe : styles.inputBoxTi}>
-          <Picker
-            mode={'dropdown'}
-            style={{marginLeft: '5%'}}
-            dropdownIconColor={'#000000'}
-            selectedValue={selectedType}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectType(itemValue)
-            }
-          >
-            <Picker.Item style={{backgroundColor: '#FAC7FF', color:'red'}} label='Expense' value='expense' />
-            <Picker.Item style={{backgroundColor: '#FAC7FF', color:'green'}} label='Income' value='income' />
-          </Picker>
+            <Picker
+              mode={'dropdown'}
+              style={{marginLeft: '5%'}}
+              dropdownIconColor={'#000000'}
+              selectedValue={selectedType}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectType(itemValue)
+              }
+            >
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'red'}} label='🔻️ Expense' value='expense' />
+              <Picker.Item style={{backgroundColor: '#FAC7FF', color:'green'}} label='💸️ Income' value='income' />
+            </Picker>
           </View>
         </View>
       </KeyboardAvoidingView>
@@ -393,7 +430,6 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     borderWidth: 1,  
     overflow: 'hidden',
-    height: 50,
     margin: 12,
     fontWeight: 'bold',
     borderRadius: 8,
@@ -406,7 +442,6 @@ const styles = StyleSheet.create({
     borderRadius: 10, 
     borderWidth: 1,  
     overflow: 'hidden',
-    height: 50,
     margin: 12,
     fontWeight: 'bold',
     borderRadius: 8,
