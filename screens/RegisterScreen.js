@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar'
 import React, {useLayoutEffect, useState} from 'react'
-import {StyleSheet, View, Image, TouchableOpacity,TextInput} from 'react-native'
+import {StyleSheet, View, Image, TouchableOpacity,TextInput, Keyboard} from 'react-native'
 import {Text} from 'react-native-elements'
 import {auth} from '../firebase'
 
@@ -11,6 +11,7 @@ const RegisterScreen = ({navigation}) => {
   const [submitLoading, setSubmitLoading] = useState(false)
 
   useLayoutEffect(() => {
+    Keyboard.dismiss();
     navigation.setOptions({
       headerBackTitle: 'Back to Login',
     })

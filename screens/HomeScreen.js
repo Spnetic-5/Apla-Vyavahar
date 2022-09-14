@@ -1,15 +1,11 @@
 import React, {useEffect, useLayoutEffect, useState, useRef} from 'react'
 import {StyleSheet, View, TouchableOpacity} from 'react-native'
-import {Text, Avatar, ListItem} from 'react-native-elements'
+import {Text} from 'react-native-elements'
 import {auth, db} from '../firebase'
 import {StatusBar} from 'expo-status-bar'
 import {Feather, FontAwesome5, Entypo, Ionicons} from '@expo/vector-icons'
 import CustomListItem from '../components/CustomListItem'
 import styled from 'styled-components/native';
-
-import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-import { NavigationContainer } from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
   const signOutUser = () => {
@@ -211,7 +207,7 @@ const HomeScreen = ({navigation}) => {
           <Text h4 style={{color: '#FFFFFF'}}>
             Recent Transactions
           </Text>
-          <View style={{marginLeft: '-35%'}}>
+          <View style={{marginLeft: '1%'}}>
             <Entypo name='colours' size={25} color='#FFFFFF' />
           </View>
           <TouchableOpacity
@@ -330,7 +326,7 @@ const styles = StyleSheet.create({
   recentTitle: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     width: '100%',
     margin: '5%'
   },
@@ -342,7 +338,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ECC2FF',
     fontSize: 14,
-    marginLeft: -80
+    marginLeft: '30%'
   },
   addButton: {
     position: 'absolute',

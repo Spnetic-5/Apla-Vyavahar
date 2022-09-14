@@ -63,7 +63,8 @@ const UpdateScreen = ({route, navigation}) => {
   const [showModal, setShowModal] = useState(false);
 
   const success = () => {
-    navigation.goBack()
+    setShowModal(false);
+    navigation.goBack();
   }
 
   const clearInputFields = () => {
@@ -73,9 +74,6 @@ const UpdateScreen = ({route, navigation}) => {
     setSelDate(new Date())
     setSelectType('expense')
     Keyboard.dismiss()
-    setTimeout(() => {
-      success()
-      }, 4000);
     setSubmitLoading(false);
     setShowModal(true);
   }
@@ -330,7 +328,7 @@ const UpdateScreen = ({route, navigation}) => {
             <Button
               buttonStyle={styles.thank}
               title='Thanks'
-              onPress={() => setShowModal(false)}
+              onPress={() => success()}
               loading={submitLoading}
             />
           </View>

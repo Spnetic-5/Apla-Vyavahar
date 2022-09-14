@@ -42,7 +42,8 @@ const AddScreen = ({navigation}) => {
   const [showModal, setShowModal] = useState(false);
 
   const success = () => {
-    navigation.navigate('Home');
+    setShowModal(false);
+    navigation.goBack();
   }
 
   const clearInputFields = () => {
@@ -52,9 +53,6 @@ const AddScreen = ({navigation}) => {
     setSelDate(new Date())
     setSelectType('expense')
     Keyboard.dismiss()
-    setTimeout(() => {
-      success()
-      }, 4000);
     setSubmitLoading(false);
     setShowModal(true);
   }
@@ -306,7 +304,7 @@ const AddScreen = ({navigation}) => {
             <Button
               buttonStyle={styles.thank}
               title='Thanks'
-              onPress={() => setShowModal(false)}
+              onPress={() => success()}
               loading={submitLoading}
             />
           </View>

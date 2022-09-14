@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Expense Tracker",
-    "slug": "Expense_Tracker",
+    "name": "AplaVyavahar",
+    "slug": "AplaVyavahar",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/apla  .png",
+    "icon": "./assets/apla.png",
     "splash": {
       "image": "./assets/apla.png",
       "resizeMode": "contain",
@@ -13,7 +13,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -21,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/apla.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "package": "com.saurabh5.AplaVyavahar"
     }
   }
 }
