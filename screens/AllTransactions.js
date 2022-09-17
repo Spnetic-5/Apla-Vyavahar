@@ -41,18 +41,18 @@ const AllTransactions = ({navigation}) => {
   }, [transactions])
 
   const MainContainer = styled.View`
-    background-color: black;
+    background-color: 'black';
     height: 100%;
     width: 100%;
-    top: -14%;
     zIndex: -5;
   `;
 
   const UpperContainer = styled.View`
     background-color: #F9D7FF;
-    height: 30%;
+    height: 20%;
     width: 100%;
     border-radius: 20;
+    zIndex: 5;
   `;
 
   return (
@@ -60,7 +60,7 @@ const AllTransactions = ({navigation}) => {
        <UpperContainer>
       </UpperContainer>
       <View 
-      style={{flexDirection: 'row', marginLeft: '10%', marginTop: '-15%', zIndex: 5}}>
+      style={{flexDirection: 'row', marginLeft: '10%', marginTop: '-20%', zIndex: 5}}>
       <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => navigation.navigate('Home')}
@@ -68,7 +68,7 @@ const AllTransactions = ({navigation}) => {
           <Ionicons name="chevron-back" size={25} color="black" />
         </TouchableOpacity>
 
-        <Text style={{color: '#000000', fontWeight: 'bold', fontSize: 18, marginLeft: '22.5%', marginTop: '1%' }}>
+        <Text style={{color: '#000000', fontWeight: 'bold', fontSize: 18, marginLeft: '22.5%' }}>
           All Transactions
         </Text>
       </View>
@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: 0,
     marginTop: '10%',
-    height: '100%'
+    height: '100%',
+    flex: 1
   },
   containerNull: {
     flex: 1,

@@ -22,6 +22,7 @@ const ModalActions = ({modalVisible, setModalVisible, navigation, id}) => {
     .delete()
     .catch((error) => alert(error.message));  
   }
+
   const deleteExpense = () => {
     setSubmitLoading(true)
     setTimeout(() => {
@@ -38,46 +39,38 @@ const ModalActions = ({modalVisible, setModalVisible, navigation, id}) => {
 
   return (
     <>
-      {
-        deleteModal && (
-          <View style={{ top: '-50%', left: '10%', zIndex: 5, width: '80%', height: '60%', backgroundColor: 'white', borderRadius: 25}}>
-          <Image
-              style={{
-                // flex: 1,
-                borderRadius: 20,
-                width: '100%',
-                resizeMode: 'contain'
-              }}
-              source={require('../assets/greenbg.png')}
-            />
-            <Image
-              style={{
-                // flex: 1,
-                borderRadius: 20,
-                width: '50%',
-                height: '25%',
-                alignSelf: 'center',
-                resizeMode: 'contain',
-                marginTop: '-125%',
-                zIndex: 5
-              }}
-              source={require('../assets/check.png')}
-            />
-            <Text style={{fontSize: 20, fontWeight: 'bold', alignSelf: 'center', top: '40%', color: '#8B0000'}}>
-              Yeahh...!!! 😉️
-            </Text>
-            <Text style={{fontSize: 16, fontWeight: 'bold', alignSelf: 'center', top: '40%', color: '#646279'}}>
-              Transaction deleted successfully! 
-            </Text>
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={deleteModal}
+        onRequestClose={() => {
+          alert('Modal has been closed.')
+          setDeleteModal(!deleteModal)
+        }}
+      >
+      <View style={styles.centeredViewNew}>
+        <View style={styles.modalViewNew}>
+        <Image
+            style={{
+              width: '40%',
+              top: '-30%',
+              resizeMode: 'contain'
+            }}
+            source={require('../assets/deleted.jpg')}
+          />
+          <Text style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center',top: '-60%', color: '#402243'}}>
+           Transaction deleted successfully! 🥳️
+          </Text>
+          <View style={{flexDirection: 'row', marginTop: '-40%' ,marginBottom: '2%'}}>
             <Button
               buttonStyle={styles.thank}
               title='Thanks'
               onPress={() => setDeleteModal(false)}
-              loading={submitLoading}
             />
           </View>
-        )
-      }
+        </View>
+      </View>
+      </Modal>
       <View style={styles.centeredView}>
         <Modal
           animationType='slide'
@@ -106,7 +99,7 @@ const ModalActions = ({modalVisible, setModalVisible, navigation, id}) => {
                     <Entypo
                       name='pencil'
                       size={40}
-                      color='#013220'
+                      color='green'
                       onPress={() =>
                         navigation.navigate('Update', {
                           itemId: id,
@@ -119,7 +112,7 @@ const ModalActions = ({modalVisible, setModalVisible, navigation, id}) => {
                         itemId: id,
                       }) & setModalVisible(!modalVisible)
                       } 
-                      style={{color: '#013220', fontSize: 20, fontWeight: '900', padding: 7}}
+                      style={{color: 'green', fontSize: 20, fontWeight: '900', padding: 7}}
                     > Edit </Text>
                 </View>
                 </TouchableOpacity>
@@ -129,11 +122,11 @@ const ModalActions = ({modalVisible, setModalVisible, navigation, id}) => {
                       name='trash'
                       onPress={() => deleteExpense()}
                       size={40}
-                      color='#8B0000'
+                      color='red'
                     />
                     <Text 
                       onPress={() => deleteExpense()}
-                      style={{color: '#8B0000', fontSize: 20, fontWeight: '900', padding: 7}}
+                      style={{color: 'red', fontSize: 20, fontWeight: '900', padding: 7}}
                     > Delete </Text>
                   </View>
                 </TouchableOpacity>
@@ -218,12 +211,36 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   thank: {
-    width: '40%',
-    backgroundColor: '#8B0000',
+    backgroundColor: 'green',
     height: 50,
+    width: 100,
     borderRadius: 20,
-    zIndex: 10,
-    marginTop: '50%',
+    padding: 15,
+    zIndex: 5,
+    fontSize: 18,
     alignSelf: 'center'
+  },
+  centeredViewNew: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalViewNew: {
+    margin: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 15,
+    padding: 25,
+    width: '80%',
+    height: '30%',
+    alignItems: 'center',
+    shadowColor: '#FFF',
+    shadowOffset: {
+      width: 2,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 10,
+    zIndex: -5
   },
 })

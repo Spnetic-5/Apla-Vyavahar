@@ -1,14 +1,16 @@
-import React, {useEffect, useLayoutEffect, useState, useRef} from 'react'
-import {StyleSheet, View, TouchableOpacity} from 'react-native'
-import {Text} from 'react-native-elements'
+import React, {useEffect, useLayoutEffect, useState} from 'react'
+import {StyleSheet, View, TouchableOpacity, Modal, Image, SafeAreaView, ScrollView} from 'react-native'
+import {Text, Button} from 'react-native-elements'
 import {auth, db} from '../firebase'
 import {StatusBar} from 'expo-status-bar'
 import {Feather, FontAwesome5, Entypo, Ionicons} from '@expo/vector-icons'
 import CustomListItem from '../components/CustomListItem'
 import styled from 'styled-components/native';
+// import { ScrollView } from 'react-native-gesture-handler'
 
 const HomeScreen = ({navigation}) => {
   const signOutUser = () => {
+    setConfirm(false);
     auth
       .signOut()
       .then(() => navigation.replace('Login'))
@@ -73,6 +75,8 @@ const HomeScreen = ({navigation}) => {
   const [totalExpense, setTotalExpense] = useState([])
   const [expense, setExpense] = useState(0)
   const [totalBalance, setTotalBalance] = useState(0)
+  const [confirm, setConfirm] = useState(false)
+  const [reset, setReset] = useState(false)
   useEffect(() => {
     if (totalIncome) {
       if (totalIncome?.length == 0) {
@@ -122,11 +126,102 @@ const HomeScreen = ({navigation}) => {
     border-radius: 10;
   `;
 
+  const delAll = () => {
+    setReset(false);
+      db.collection("expense")
+     .get()
+     .then(res => {
+       res.forEach(element => {
+         if(element?.data()?.email === auth.currentUser.email){
+           element.ref.delete();
+         }
+         // console.log(element.data());
+       });
+     })
+     .catch((error) => alert(error.message));
+  }
+
   return (
     <>
       {/* <View style={styles.container}> */}
         <StatusBar style='dark' />
         <MainContainer>
+        <Modal
+            animationType='slide'
+            transparent={true}
+            visible={confirm}
+            onRequestClose={() => {
+              alert('Modal has been closed.')
+              setConfirm(!confirm)
+            }}
+          >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+            <Image
+                style={{
+                  width: '40%',
+                  top: '-40%',
+                  resizeMode: 'contain'
+                }}
+                source={require('../assets/alert.png')}
+              />
+              <Text style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center',top: '-80%', color: '#402243'}}>
+                Are you sure you want to log out?
+              </Text>
+              <View style={{flexDirection: 'row', marginLeft: '10%', marginTop: '-60%' ,marginBottom: '2%'}}>
+                <Button
+                  buttonStyle={styles.yes}
+                  title='No'
+                  onPress={() => setConfirm(false)}
+                />
+                <Button
+                  buttonStyle={styles.no}
+                  title='Yes'
+                  color='#FAC7FF'
+                  onPress={signOutUser}
+                />
+              </View>
+            </View>
+          </View>
+          </Modal>
+        <Modal
+            animationType='slide'
+            transparent={true}
+            visible={reset}
+            onRequestClose={() => {
+              alert('Modal has been closed.')
+              setReset(false)
+            }}
+          >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+            <Image
+                style={{
+                  width: '40%',
+                  top: '-40%',
+                  resizeMode: 'contain'
+                }}
+                source={require('../assets/alert.png')}
+              />
+              <Text style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center',top: '-80%', color: '#402243'}}>
+                Are you sure you want to reset all the Transactions?
+              </Text>
+              <View style={{flexDirection: 'row', marginLeft: '10%', marginTop: '-60%' ,marginBottom: '2%'}}>
+                <Button
+                  buttonStyle={styles.yes}
+                  title='No'
+                  onPress={() => setReset(false)}
+                />
+                <Button
+                  buttonStyle={styles.no}
+                  title='Yes'
+                  color='#FAC7FF'
+                  onPress={delAll}
+                />
+              </View>
+            </View>
+          </View>
+          </Modal>
           <UpperContainer style={styles.upper}>
             <View style={styles.fullName}>
                 <View style={{flexDirection: 'column'}}>
@@ -136,7 +231,7 @@ const HomeScreen = ({navigation}) => {
                     </Text>
                 </View>
                 <View style={{flex: 1, alignSelf: 'flex-start'}}>
-                <TouchableOpacity activeOpacity={0.5} onPress={signOutUser}>
+                <TouchableOpacity activeOpacity={0.5} onPress={() => setConfirm(true)}>
                     {/* <Text style={{fontWeight: 'bold', color: 'red'}}>Logout</Text> */}
                     <View View style={{height: 40, width: 40, backgroundColor: '#000000', borderRadius: 10, padding: 9, marginLeft: 25}}>
                       <Feather name='log-out' size={22} color='#FAC7FF' />
@@ -212,16 +307,19 @@ const HomeScreen = ({navigation}) => {
           </View>
           <TouchableOpacity
             activeOpacity={0.5}
-            onPress={() => navigation.navigate('All')}
+            onPress={() => filter.length > 0 ? setReset(true) : alert("You don't have any Transactions!")
+            }
+            // onPress={() => delAll()}
+            // onPress={() => navigation.navigate('All')}
           >
-            <Text style={styles.seeAll}>See All</Text>
+            <Text style={styles.seeAll}>Reset All</Text>
           </TouchableOpacity>
         </View>
-
         {filter?.length > 0 ? (
-          <View style={styles.recentTransactions}>
-            {filter?.slice(0, 3).map((info) => (
-              <View key={info.id} >
+          <SafeAreaView style={styles.containerScroll}>
+          <ScrollView>
+            {filter?.map((info) => (
+              <View key={info.id}>
                 <CustomListItem
                   info={info.data}
                   navigation={navigation}
@@ -229,7 +327,8 @@ const HomeScreen = ({navigation}) => {
                 />
               </View>
             ))}
-          </View>
+          </ScrollView>
+        </SafeAreaView>
         ) : (
           <View style={styles.containerNull}>
           <Ionicons name='ios-wallet' size={24} color='#AAAAAA' />
@@ -332,7 +431,7 @@ const styles = StyleSheet.create({
   },
   recentTransactions: {
     backgroundColor: 'black',
-    width: '100%',
+    width: '100%'
   },
   seeAll: {
     fontWeight: 'bold',
@@ -386,4 +485,46 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 25,
+    width: '80%',
+    height: '30%',
+    alignItems: 'center',
+    shadowColor: '#FFF',
+    shadowOffset: {
+      width: 2,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 10,
+  },
+  no: {
+    width: '80%',
+    backgroundColor: 'green',
+    height: 50,
+    borderRadius: 20,
+    marginTop: '15%',
+  },
+  yes: {
+    width: '80%',
+    backgroundColor: 'red',
+    height: 50,
+    borderRadius: 20,
+    marginTop: '15%',
+  },
+  containerScroll: {
+    backgroundColor: 'black',
+    padding: 0,
+    height: '100%',
+    flex: 1
+  }
 })

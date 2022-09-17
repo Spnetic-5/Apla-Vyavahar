@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar'
 import React, {useEffect, useLayoutEffect, useState} from 'react'
-import {StyleSheet, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Keyboard} from 'react-native'
+import {StyleSheet, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Keyboard, Modal} from 'react-native'
 import {Text, Button} from 'react-native-elements'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import format from 'date-fns/format'
@@ -331,7 +331,39 @@ const UpdateScreen = ({route, navigation}) => {
         />
         )
       }
-      {
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          alert('Modal has been closed.')
+          setShowModal(!showModal)
+        }}
+      >
+      <View style={styles.centeredViewNew}>
+        <View style={styles.modalViewNew}>
+        <Image
+            style={{
+              width: '40%',
+              top: '-40%',
+              resizeMode: 'contain'
+            }}
+            source={require('../assets/check.png')}
+          />
+          <Text style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center',top: '-75%', color: '#402243'}}>
+          Transaction updated successfully! 🥳️
+          </Text>
+          <View style={{flexDirection: 'row', marginTop: '-55%' ,marginBottom: '2%'}}>
+            <Button
+              buttonStyle={styles.thank}
+              title='Thanks'
+              onPress={() => setShowModal(false) & navigation.navigate("Home")}
+            />
+          </View>
+        </View>
+      </View>
+      </Modal>
+      {/* {
         showModal && (
           <View style={{ top: '-50%', left: '10%', zIndex: 5, width: '80%', height: '60%', backgroundColor: 'white', borderRadius: 25}}>
           <Image
@@ -370,7 +402,7 @@ const UpdateScreen = ({route, navigation}) => {
             />
           </View>
         )
-      }
+      } */}
     </>
   )
 }
@@ -475,12 +507,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAC7FF'
   },
   thank: {
-    width: '40%',
-    backgroundColor: '#402243',
+    backgroundColor: 'green',
     height: 50,
+    width: 100,
     borderRadius: 20,
-    zIndex: 10,
-    marginTop: '45%',
+    padding: 15,
+    zIndex: 5,
+    fontSize: 18,
     alignSelf: 'center'
+  },
+  centeredViewNew: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalViewNew: {
+    margin: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 15,
+    padding: 25,
+    width: '80%',
+    height: '30%',
+    alignItems: 'center',
+    shadowColor: '#FFF',
+    shadowOffset: {
+      width: 2,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 10,
+    zIndex: -5
   },
 })

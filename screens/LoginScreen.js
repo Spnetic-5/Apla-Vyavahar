@@ -22,7 +22,7 @@ const LoginScreen = ({navigation}) => {
     }
   }
   const clearInputFields = () => {
-    alert('Successfully Logged in')
+    // alert('Successfully Logged in')
     navigation.replace('Home')
     setSubmitLoading(false)
     setEmail('')
