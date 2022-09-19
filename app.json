@@ -21,11 +21,17 @@
       "bundleIdentifier": "com.saurabh5.AplaVyavahar"
     },
     "android": {
+      "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/apla.png",
         "backgroundColor": "#000000"
       },
       "package": "com.saurabh5.AplaVyavahar"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e4e791b1-7b24-43ec-88da-b5f888ee4211"
+      }
     }
   }
 }
